@@ -13,8 +13,8 @@ const RecipesContainer = () => {
             <div className="grid grid-cols-3 gap-5">
             {data &&
                 isSuccess &&
-                data.map((recipe) => (
-                    <Recipe key={recipe.id} recipe={recipe}></Recipe>
+                data.map((food) => (
+                    <Recipe key={food.id} food={food}></Recipe>
                 ))}
             </div>
         </div>

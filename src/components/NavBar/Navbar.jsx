@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
+
 const Navbar = () => {
+    const cartItems = useSelector((state) => state.cart.cartItems);
+
     return (
         <div className="navbar bg-sky-500">
             <div className="flex-1">
@@ -27,7 +31,7 @@ const Navbar = () => {
                                 />
                             </svg>
                             <span className="badge badge-sm indicator-item">
-                                8
+                                {cartItems.length}
                             </span>
                         </div>
                     </div>
