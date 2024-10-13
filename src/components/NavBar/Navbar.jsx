@@ -1,8 +1,12 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { decrementQuantity, incrementQuantity, removeItem } from "../../redux/features/recipe/recipeSlice";
 
 const Navbar = () => {
     const cartItems = useSelector((state) => state.cart.cartItems);
+    const cartItemsCount = cartItems.length;
+    const dispatch = useDispatch();
 
+ 
     return (
         <div className="navbar bg-sky-500">
             <div className="flex-1">
@@ -31,7 +35,7 @@ const Navbar = () => {
                                 />
                             </svg>
                             <span className="badge badge-sm indicator-item">
-                                {cartItems.length}
+                                {cartItemsCount}
                             </span>
                         </div>
                     </div>
@@ -40,12 +44,65 @@ const Navbar = () => {
                         className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
                     >
                         <div className="card-body">
-                            <span className="text-lg font-bold">8 Items</span>
+                            <span className="text-lg font-bold">
+                                {cartItemsCount} Items
+                            </span>
                             <span className="text-info">Subtotal: $999</span>
                             <div className="card-actions">
-                                <button className="btn btn-primary btn-block">
-                                    View cart
-                                </button>
+                                {cartItems.map((x) => (
+                                    <div
+                                        key={x.id}
+                                        className="flex items-center gap-1"
+                                    >
+                                        <img
+                                            className="w-1/3"
+                                            src={x.image}
+                                            alt=""
+                                        />
+                                        <p className="font-semibold">
+                                            {x.name}
+                                        </p>
+                                        <span
+                                            onClick={() =>
+                                                dispatch(
+                                                    decrementQuantity({
+                                                        id: x.id,
+                                                    })
+                                                )
+                                            }
+                                            className="font-bold cursor-pointer"
+                                        >
+                                            -
+                                        </span>
+                                        <p className="font-bold">
+                                            {x.quantity}
+                                        </p>
+                                        <span
+                                            onClick={() =>
+                                                dispatch(
+                                                    incrementQuantity({
+                                                        id: x.id,
+                                                    })
+                                                )
+                                            }
+                                            className="font-bold cursor-pointer"
+                                        >
+                                            +
+                                        </span>
+                                        <span
+                                            onClick={() =>
+                                                dispatch(
+                                                    removeItem(
+                                                         x.id,
+                                                    )
+                                                )
+                                            }
+                                            className="font-bold cursor-pointer"
+                                        >
+                                            *
+                                        </span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
